@@ -11,7 +11,8 @@ Author URI: https://bellaworksweb.com
 function livinfeed_shortcode( $atts ) {
 	
 	$a = shortcode_atts( array(
-			'feedtitle' => '',
+			'title' => '',
+			'description' => '',
 	), $atts );
 
 	ob_start(); 
@@ -21,7 +22,8 @@ function livinfeed_shortcode( $atts ) {
 	// print_r($ourTerm);
 	// echo '</pre>';
 	
-	$location = $a['feedtitle'];
+	$title = $a['title'];
+	$desc = $a['description'];
 
 	//$per_page = 3;
 
@@ -36,13 +38,20 @@ function livinfeed_shortcode( $atts ) {
 		// print_r($body);
 		// echo '</pre>';
         ?>
-        <div class="wp-block-columns">
-        	<div class="wp-block-column">
-        		<h2 class="black-section-title">
-        			<?php echo $location; ?>
-        		</h2>
-        	</div>
-        </div>
+        <?php if( $title || $desc ) { ?>
+	        <div class="wp-block-columns">
+	        	<div class="wp-block-column">
+	        		<?php if($title){ ?>
+		        		<h2 class="black-section-title">
+		        			<?php echo $title; ?>
+		        		</h2>
+		        	<?php } ?>
+		        	<?php if($desc){ ?>
+		        		<p><?php echo $desc; ?></p>
+		        	<?php } ?>
+	        	</div>
+	        </div>
+	    <?php } ?>
 
         <div class="wp-block-columns">
 		<?php $i=0; $c = 0; foreach ($body as $post) : $i++;
