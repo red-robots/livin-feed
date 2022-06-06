@@ -63,6 +63,7 @@ function livinfeed_shortcode( $atts ) {
 					$excerpt = substr($excerpt, 0, -24);
 					$permalink = $post['link'];
 					$img = $post["_embedded"]["wp:featuredmedia"][0]["source_url"];
+					// $img = $post["_embedded"]["wp:featuredmedia"][0]["media_details"]["sizes"]["medium"]["source_url"];
 					$author = $post["_embedded"]["author"][0]["name"];
 					$cat = $post["_embedded"]["wp:term"][0][0]["name"];
 					$date = $post['date'];
@@ -77,7 +78,10 @@ function livinfeed_shortcode( $atts ) {
 	    						<?php if($img) { ?>
 		    						<figure class="post-thumbnail">
 		    							<a href="<?php echo $permalink; ?>" target="_blank">
-		       								<img src="<?php echo $img; ?>" class="attachment-newspack-article-block-uncropped size-newspack-article-block-uncropped wp-post-image jetpack-lazy-image jetpack-lazy-image--handled">
+		       								<img 
+		       								src="<?php echo $img; ?>" 
+		       								style="width: 300px; height: 200px; background-size: cover; background-image: url(<?php echo $img; ?>);"
+		       								class="attachment-newspack-article-block-uncropped size-newspack-article-block-uncropped wp-post-image jetpack-lazy-image jetpack-lazy-image--handled">
 		       							</a>
 		    						</figure>
 		    					<?php } ?>
