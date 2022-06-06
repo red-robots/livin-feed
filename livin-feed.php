@@ -13,6 +13,7 @@ function livinfeed_shortcode( $atts ) {
 	$a = shortcode_atts( array(
 			'title' => '',
 			'description' => '',
+			'layout' => '',
 	), $atts );
 
 	ob_start(); 
@@ -24,6 +25,7 @@ function livinfeed_shortcode( $atts ) {
 	
 	$title = $a['title'];
 	$desc = $a['description'];
+	$layout = $a['layout'];
 
 	//$per_page = 3;
 
@@ -52,6 +54,62 @@ function livinfeed_shortcode( $atts ) {
 	        	</div>
 	        </div>
 	    <?php } ?>
+
+	    <?php if( $layout == 'thirds' ) { ?>
+	    	<div class="wp-block-columns">
+	    		<?php $i=0; $c = 0; foreach ($body as $post) : $i++; 
+	    			$post_title = $post['title']['rendered']; 
+					$excerpt = $post['excerpt']['rendered']; 
+					$excerpt = substr($excerpt, 0, -24);
+					$permalink = $post['link'];
+					$img = $post["_embedded"]["wp:featuredmedia"][0]["source_url"];
+					$author = $post["_embedded"]["author"][0]["name"];
+					$cat = $post["_embedded"]["wp:term"][0][0]["name"];
+					$date = $post['date'];
+					$time = strtotime($date);
+
+					$newformat = date('F j, Y',$time);
+	    		?>
+	    		<div class="wp-block-column">
+	    			<div class="wp-block-newspack-blocks-homepage-articles  wpnbha is-grid columns-3 show-image image-aligntop ts-2 is-3 is-uncropped show-category  has-text-align-left">
+	    				
+	    					<article class="category-entertainment type-post post-has-image">
+	    						<?php if($img) { ?>
+		    						<figure class="post-thumbnail">
+		    							<a href="<?php echo $permalink; ?>" target="_blank">
+		       								<img src="<?php echo $img; ?>" class="attachment-newspack-article-block-uncropped size-newspack-article-block-uncropped wp-post-image jetpack-lazy-image jetpack-lazy-image--handled">
+		       							</a>
+		    						</figure>
+		    					<?php } ?>
+	    						<div class="entry-wrapper">
+	       							<div class="cat-links">
+	       								<a><?php echo $cat; ?></a>
+	       							</div>
+	       							<h2 class="entry-title">
+	       								<a href="<?php echo $permalink; ?>" target="_blank">
+	       									<?php echo $post_title; ?>
+	       								</a>
+	       							</h2>
+	       							<!-- <p>
+	       								<?php //echo $excerpt; ?>
+	       							</p> -->
+	       							<div class="entry-meta">
+	       								<span class="byline">
+	       									by <b><?php echo $author; ?></b>
+	       								</span>
+	       								<time class="entry-date">
+	       									<?php echo $newformat; ?>
+	       								</time>
+	       							</div>
+	       						</div>
+	    					</article>
+	    				
+	    			</div>
+	    		</div>
+	    		
+	    		<?php endforeach; ?>
+	    	</div>
+	    <?php } else { ?>
 
         <div class="wp-block-columns">
 		<?php $i=0; $c = 0; foreach ($body as $post) : $i++;
@@ -142,6 +200,7 @@ function livinfeed_shortcode( $atts ) {
 			
 		<?php endforeach; ?>
         </div>
+    	<?php } ?>
 
 
         <?php 
