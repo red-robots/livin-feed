@@ -80,7 +80,7 @@ function livinfeed_shortcode( $atts ) {
 		    							<a href="<?php echo $permalink; ?>" target="_blank">
 		       								<img 
 		       								src="<?php echo $img; ?>" 
-		       								style="width: 300px; height: 200px; background-size: cover; background-image: url(<?php echo $img; ?>);"
+		       								style="width: 400px; height: 200px; background-size: contain; background-image: url(<?php echo $img; ?>);"
 		       								class="attachment-newspack-article-block-uncropped size-newspack-article-block-uncropped wp-post-image jetpack-lazy-image jetpack-lazy-image--handled">
 		       							</a>
 		    						</figure>
