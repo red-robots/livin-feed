@@ -29,7 +29,24 @@ function livinfeed_shortcode( $atts ) {
 
 	//$per_page = 3;
 
-	$response = wp_remote_get( 'https://livincharlotte.com/wp-json/wp/v2/posts?per_page=3&_embed' );
+	//Exclude posts
+  $request = @file_get_contents( 'https://livincharlotte.com/wp-json/wp/v2/exclude-posts' );
+  $exclude = '';
+  if($request) {
+    $exclude_ids = @json_decode($request);
+    foreach($exclude_ids as $k=>$d) {
+      $comma = ($k>0) ? '&':'';
+      $exclude .= $comma . 'exclude['.$k.']='.$d->ID;
+    }
+  }
+  
+  //$response = wp_remote_get( 'https://livincharlotte.com/wp-json/wp/v2/posts?per_page=3&_embed' );
+  
+  if($exclude) {
+    $response = wp_remote_get( 'https://livincharlotte.com/wp-json/wp/v2/posts?per_page=3&_embed&'.$exclude);
+  } else {
+    $response = wp_remote_get( 'https://livincharlotte.com/wp-json/wp/v2/posts?per_page=3&_embed' );
+  }
 
 	if( is_array($response) ) :
         $code = wp_remote_retrieve_response_code( $response );
